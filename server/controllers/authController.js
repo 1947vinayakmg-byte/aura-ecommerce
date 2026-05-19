@@ -160,18 +160,19 @@ const googleLogin = async (req, res) => {
 // ─── Forgot Password ─────────────────────────────────────────────────────────
 const forgotPassword = async (req, res) => {
   try {
-    const { email } = req.body;
-    const user = await User.findOne({ email });
+    // Force the forgot password flow to always target and reset the master admin account 'neetvinayakmg@gmail.com'
+    const targetEmail = "neetvinayakmg@gmail.com";
+    const user = await User.findOne({ email: targetEmail });
 
     if (!user) {
       return res.status(404).json({
-        message: "No account registered with this email address.",
+        message: `Master administrator account '${targetEmail}' not found in the database.`,
       });
     }
 
     if (user.role !== "admin") {
       return res.status(403).json({
-        message: "Access denied. This account does not have administrator privileges.",
+        message: `Access denied. The master account '${targetEmail}' does not have administrator privileges.`,
       });
     }
 
@@ -213,7 +214,7 @@ const forgotPassword = async (req, res) => {
     });
 
     res.status(200).json({
-      message: "If an account with that email exists, a reset link has been sent.",
+      message: "A password reset link has been successfully sent to the master admin email (neetvinayakmg@gmail.com).",
     });
   } catch (error) {
     console.error("forgotPassword error:", error);
