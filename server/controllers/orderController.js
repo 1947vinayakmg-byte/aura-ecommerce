@@ -40,38 +40,50 @@ const createOrder = async (req, res) => {
 
     const createdOrder = await order.save();
 
-    // -------------------------
-    // STEP 1 — Call Shiprocket
-    // -------------------------
-    try {
-      await createdOrder.populate("user", "name email");
-      const shiprocketOrder = await createShiprocketOrder(createdOrder);
-      console.log("Shiprocket Order:", shiprocketOrder);
-      if (shiprocketOrder && (shiprocketOrder.order_id || shiprocketOrder.shipment_id)) {
-        createdOrder.shiprocketOrderId = shiprocketOrder.order_id;
-        createdOrder.shiprocketShipmentId = shiprocketOrder.shipment_id;
-        createdOrder.shiprocketResponse = shiprocketOrder;
-        await createdOrder.save();
-        console.log("Shiprocket details successfully saved to MongoDB.");
+    // -------------------------------------------------------------
+    // Asynchronous Background Integrations — Response is instant!
+    // -------------------------------------------------------------
+    
+    // 1. Process Shiprocket Order Creation in the background
+    const processShiprocket = async () => {
+      try {
+        await createdOrder.populate("user", "name email");
+        const shiprocketOrder = await createShiprocketOrder(createdOrder);
+        console.log("Background Shiprocket Order:", shiprocketOrder);
+        if (shiprocketOrder && (shiprocketOrder.order_id || shiprocketOrder.shipment_id)) {
+          createdOrder.shiprocketOrderId = shiprocketOrder.order_id;
+          createdOrder.shiprocketShipmentId = shiprocketOrder.shipment_id;
+          createdOrder.shiprocketResponse = shiprocketOrder;
+          await createdOrder.save();
+          console.log("Background Shiprocket details successfully saved to MongoDB.");
+        }
+      } catch (shipErr) {
+        console.log("Background Shiprocket Error:", shipErr.message);
       }
-    } catch (shipErr) {
-      console.log("Shiprocket Error:", shipErr.message);
-    }
+    };
+    
+    // 2. Process Confirmation Email in the background
+    const processEmail = async () => {
+      try {
+        await sendEmail(
+          req.user.email,
+          "Order Confirmed - AURA L'ÉLITE", 
+          `
+            <div style="font-family: sans-serif; color: #333;">
+              <h1 style="color: #D4AF37;">Order Successful</h1>
+              <p>Thank you for your acquisition. Your order #${createdOrder._id} has been securely placed.</p>
+            </div>
+          `
+        );
+        console.log("Background Order Confirmation email sent.");
+      } catch (emailErr) {
+        console.error("Background Order Confirmation email failed:", emailErr);
+      }
+    };
 
-    try {
-      await sendEmail(
-        req.user.email,
-        "Order Confirmed - AURA L'ÉLITE", 
-        `
-          <div style="font-family: sans-serif; color: #333;">
-            <h1 style="color: #D4AF37;">Order Successful</h1>
-            <p>Thank you for your acquisition. Your order #${createdOrder._id} has been securely placed.</p>
-          </div>
-        `
-      );
-    } catch (emailErr) {
-      console.error("Failed to send confirmation email:", emailErr);
-    }
+    // Trigger background actions
+    processShiprocket();
+    processEmail();
 
     res.status(201).json(createdOrder);
   } catch (error) {
