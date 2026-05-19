@@ -179,8 +179,7 @@ const forgotPassword = async (req, res) => {
     await user.save();
 
     // Admin panel URL — adjust if your admin runs on a different port/domain
-    const adminBaseUrl = process.env.ADMIN_URL || import.meta.env
-      .VITE_API_URL;
+    const adminBaseUrl = process.env.ADMIN_URL || "https://aura-ecommerce-ouuz.vercel.app";
     const resetUrl = `${adminBaseUrl}/reset-password/${rawToken}`;
 
     const html = `
