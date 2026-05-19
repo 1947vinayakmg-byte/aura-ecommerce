@@ -18,6 +18,7 @@ interface InsightSection {
 
 // Parse the Gemini response sections from markdown headers
 function parseInsightSections(raw: string): InsightSection[] {
+  if (!raw) return [];
   const sectionDefs = [
     { key: 'MARKET TRENDS',         icon: TrendingUp,  color: 'text-blue-400'   },
     { key: 'INVENTORY INTELLIGENCE', icon: Package,     color: 'text-amber-400'  },

@@ -114,7 +114,7 @@ Be specific, use the actual numbers from the data, and write in a premium luxury
     
     // ── Call Gemini API ──
     const response = await ai.models.generateContent({
-        model: 'gemini-flash-latest',
+        model: 'gemini-3.5-flash',
         contents: prompt,
     });
     const text = response.text;
