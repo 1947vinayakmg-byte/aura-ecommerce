@@ -51,9 +51,16 @@ app.use(mongoSanitize);
 
 // CORS Configuration
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production'
-    ? "https://aura-ecommerce-rho.vercel.app"
-    : "http://localhost:5173",
+  origin: [
+    "https://aura-ecommerce-rho.vercel.app",
+    "https://aura-ecommerce-ouuz.vercel.app",
+    "http://localhost:5173",
+    "http://localhost:3001",
+    "http://localhost:3000",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:3001",
+    "http://127.0.0.1:3000"
+  ], 
   credentials: true,
 }));
 
