@@ -111,8 +111,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           )}
         </Link>
 
-        {/* Quick Actions (Moved outside Link) */}
-        <div className="absolute bottom-4 right-4 translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 flex flex-col gap-2 z-10">
+        {/* Quick Actions (Always visible on mobile/touch, hover-animated on desktop) */}
+        <div className="absolute bottom-4 right-4 flex flex-col gap-2 z-10 transition-all duration-300 translate-y-0 opacity-100 lg:translate-y-12 lg:opacity-0 lg:group-hover:translate-y-0 lg:group-hover:opacity-100">
           <button
             onClick={handleShare}
             className="w-10 h-10 rounded-full bg-primary text-luxury-black flex items-center justify-center hover:bg-luxury-gold hover:text-white transition-all duration-300 shadow-xl"
