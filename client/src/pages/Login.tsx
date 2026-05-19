@@ -98,7 +98,7 @@ const Login = () => {
           <div className="flex flex-col gap-3">
             <div className="flex justify-between items-center">
               <label className="text-[10px] uppercase tracking-widest text-secondary font-bold">Password</label>
-              {isLogin && <button type="button" className="text-[9px] uppercase tracking-widest hover:text-luxury-gold transition-colors">Forgot?</button>}
+              {isLogin && <button type="button" onClick={() => navigate('/forgot-password')} className="text-[9px] uppercase tracking-widest hover:text-luxury-gold transition-colors">Forgot?</button>}
             </div>
             <div className="relative">
               <Lock size={16} className="absolute left-0 bottom-4 text-primary/30" strokeWidth={1.5} />

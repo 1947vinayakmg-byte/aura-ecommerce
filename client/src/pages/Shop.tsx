@@ -15,6 +15,7 @@ const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [sortBy, setSortBy] = useState('Newest');
   const [viewCols, setViewCols] = useState(3);
+  const [sortOpen, setSortOpen] = useState(false);
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [pages, setPages] = useState(1);
@@ -107,27 +108,33 @@ const Shop = () => {
             </div>
 
             <div className="flex items-center gap-8 border-t border-primary/5 pt-6 w-full md:w-auto">
-              <div className="relative group">
-                <div className="flex items-center gap-2 text-[10px] tracking-widest uppercase cursor-pointer hover:text-luxury-gold transition-colors font-bold pb-2">
+              <div className="relative">
+                <button 
+                  type="button"
+                  onClick={() => setSortOpen(!sortOpen)}
+                  className="flex items-center gap-2 text-[10px] tracking-widest uppercase cursor-pointer hover:text-luxury-gold transition-colors font-bold pb-2"
+                >
                   <SlidersHorizontal size={14} />
                   <span>Sort By: {sortBy}</span>
-                </div>
-                <div className="absolute top-full left-0 w-48 bg-luxury-card border border-primary/10 rounded shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-                  {['Newest', 'Price: Low to High', 'Price: High to Low', 'Best Selling', 'Trending'].map(option => (
-                    <button 
-                      key={option}
-                      onClick={() => setSortBy(option)}
-                      className={cn(
-                        "w-full text-left px-4 py-3 text-[10px] tracking-widest uppercase hover:bg-primary/5 transition-colors",
-                        sortBy === option ? "text-luxury-gold font-bold" : "text-primary/70"
-                      )}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
+                </button>
+                {sortOpen && (
+                  <div className="absolute top-full left-0 w-48 bg-luxury-card border border-primary/10 rounded shadow-xl z-50">
+                    {['Newest', 'Price: Low to High', 'Price: High to Low', 'Best Selling', 'Trending'].map(option => (
+                      <button 
+                        key={option}
+                        onClick={() => { setSortBy(option); setSortOpen(false); }}
+                        className={cn(
+                          "w-full text-left px-4 py-3 text-[10px] tracking-widest uppercase hover:bg-primary/5 transition-colors",
+                          sortBy === option ? "text-luxury-gold font-bold" : "text-primary/70"
+                        )}
+                      >
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
-              <div className="flex items-center gap-4 border-l border-primary/10 pl-8">
+              <div className="hidden lg:flex items-center gap-4 border-l border-primary/10 pl-8">
                 <button onClick={() => setViewCols(2)} className={cn("transition-colors", viewCols === 2 ? "text-luxury-gold" : "text-primary/40")}>
                   <Grid2X2 size={20} />
                 </button>

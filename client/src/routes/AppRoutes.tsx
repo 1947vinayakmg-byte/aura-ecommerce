@@ -20,6 +20,7 @@ import MyOrders from '../pages/MyOrders';
 import OrderSuccess from '../pages/OrderSuccess';
 import CodSuccess from '../pages/CodSuccess';
 import ResetPassword from '../pages/ResetPassword';
+import ForgotPassword from '../pages/ForgotPassword';
 import Profile from '../pages/Profile';
 
 const AppRoutes = () => {
@@ -36,6 +37,7 @@ const AppRoutes = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/:slug" element={<InfoPage />} />
       </Route>
 

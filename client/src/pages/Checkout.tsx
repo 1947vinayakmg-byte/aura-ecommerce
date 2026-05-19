@@ -251,7 +251,7 @@ const Checkout = () => {
               </h2>
               
               <div className="space-y-6">
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="flex flex-col gap-2">
                     <label className="text-[10px] uppercase tracking-widest text-secondary">Full Name</label>
                     <input 
@@ -284,8 +284,8 @@ const Checkout = () => {
                   />
                 </div>
 
-                <div className="grid grid-cols-3 gap-6">
-                  <div className="col-span-2 flex flex-col gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                  <div className="sm:col-span-2 flex flex-col gap-2">
                     <label className="text-[10px] uppercase tracking-widest text-secondary">City</label>
                     <input 
                       type="text" 

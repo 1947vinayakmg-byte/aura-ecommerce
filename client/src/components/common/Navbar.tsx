@@ -86,7 +86,7 @@ const Navbar = () => {
     <>
       <nav
         className={cn(
-          'sticky top-0 left-0 w-full z-50 transition-all duration-500 py-5 px-12 md:px-16 flex items-center justify-between border-b border-white/5',
+          'sticky top-0 left-0 w-full z-50 transition-all duration-500 py-5 px-4 sm:px-8 md:px-16 flex items-center justify-between border-b border-white/5',
           isScrolled
             ? 'glass py-4 backdrop-blur-3xl'
             : cn('bg-luxury-black', theme === 'light' && 'bg-white border-black/5')
@@ -110,7 +110,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <div className="flex-1 flex items-center justify-end gap-10">
+        <div className="flex-1 flex items-center justify-end gap-4 sm:gap-6 md:gap-10">
           <button
             onClick={toggleTheme}
             className="hover:text-luxury-gold transition-colors"
