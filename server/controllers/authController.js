@@ -164,9 +164,14 @@ const forgotPassword = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      // Respond with success regardless to prevent email enumeration
-      return res.status(200).json({
-        message: "If an account with that email exists, a reset link has been sent.",
+      return res.status(404).json({
+        message: "No account registered with this email address.",
+      });
+    }
+
+    if (user.role !== "admin") {
+      return res.status(403).json({
+        message: "Access denied. This account does not have administrator privileges.",
       });
     }
 
