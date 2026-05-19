@@ -178,8 +178,14 @@ const forgotPassword = async (req, res) => {
     user.resetPasswordExpire = Date.now() + 30 * 60 * 1000; // 30 minutes
     await user.save();
 
-    // Admin panel URL — adjust if your admin runs on a different port/domain
-    const adminBaseUrl = process.env.ADMIN_URL || "https://aura-ecommerce-ouuz.vercel.app";
+    // Admin panel URL - dynamically detect production deployment to avoid sending localhost links in production emails
+    let adminBaseUrl = process.env.ADMIN_URL || "https://aura-ecommerce-ouuz.vercel.app";
+    if (adminBaseUrl.includes("localhost") || adminBaseUrl.includes("127.0.0.1")) {
+      // If we are in production on Render (or RENDER env is true), override localhost to live URL
+      if (process.env.NODE_ENV === "production" || process.env.RENDER === "true" || process.env.PORT !== "5000") {
+        adminBaseUrl = "https://aura-ecommerce-ouuz.vercel.app";
+      }
+    }
     const resetUrl = `${adminBaseUrl}/reset-password/${rawToken}`;
 
     const html = `
