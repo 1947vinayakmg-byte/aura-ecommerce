@@ -1,35 +1,32 @@
-const nodemailer =
-  require("nodemailer");
+const nodemailer = require("nodemailer");
 
-const sendEmail =
-  async (
-    to,
-    subject,
-    html
-  ) => {
+const sendEmail = async (to, subject, html) => {
+  const emailUser = process.env.EMAIL_USER || "neetvinayakmg@gmail.com";
+  const emailPass = process.env.EMAIL_PASS || "wusk afmj lkfn uaon";
 
-    const transporter =
-      nodemailer.createTransport({
-        service: "gmail",
+  console.log(`[Email Service] Attempting to send email to: ${to}`);
+  console.log(`[Email Service] Sender address: ${emailUser}`);
 
-        auth: {
-          user:
-            process.env.EMAIL_USER,
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: emailUser,
+      pass: emailPass,
+    },
+  });
 
-          pass:
-            process.env.EMAIL_PASS,
-        },
-      });
-
-    await transporter.sendMail({
-      from:
-        process.env.EMAIL_USER,
-
+  try {
+    const info = await transporter.sendMail({
+      from: emailUser,
       to,
       subject,
       html,
     });
+    console.log(`[Email Service] Success! Message ID: ${info.messageId}`);
+  } catch (error) {
+    console.error("[Email Service] SMTP error occurred during email transmission:", error);
+    throw error;
+  }
 };
 
-module.exports =
-  sendEmail;
+module.exports = sendEmail;
