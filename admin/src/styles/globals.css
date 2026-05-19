@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@theme {
+  --color-luxury-bg: #050505;
+  --color-luxury-sidebar: #0a0a0a;
+  --color-luxury-card: #121212;
+  --color-luxury-gold: #d4af37;
+  --color-luxury-gold-hover: #c5a028;
+  --color-luxury-border: rgba(255, 255, 255, 0.08);
+  --color-luxury-text-primary: #ffffff;
+  --color-luxury-text-secondary: #a1a1aa;
+  
+  --font-display: 'Playfair Display', serif;
+  --font-luxury: 'Inter', sans-serif;
+  
+  --shadow-luxury: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  --shadow-gold: 0 10px 30px -10px rgba(212, 175, 55, 0.2);
+}
+
+@layer base {
+  body {
+    @apply bg-luxury-bg text-luxury-text-primary font-luxury antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/[0.02] backdrop-blur-xl border border-luxury-border rounded-2xl shadow-luxury transition-all duration-300;
+  }
+
+  .glass-card:hover {
+    @apply bg-white/[0.04] border-luxury-gold/20 shadow-gold;
+  }
+
+  .glass-nav {
+    @apply bg-luxury-bg/80 backdrop-blur-md border-b border-luxury-border;
+  }
+
+  .luxury-gradient-text {
+    @apply bg-clip-text text-transparent bg-linear-to-r from-luxury-gold via-[#f3e5ab] to-luxury-gold;
+  }
+
+  .luxury-button-primary {
+    @apply bg-luxury-gold text-black font-bold px-6 py-3 rounded-xl transition-all duration-300 
+           hover:bg-luxury-gold-hover hover:scale-[1.02] active:scale-[0.98] shadow-gold;
+  }
+
+  .luxury-input {
+    @apply bg-white/[0.03] border border-luxury-border rounded-xl px-4 py-3 text-sm transition-all duration-300
+           focus:outline-none focus:border-luxury-gold/50 focus:bg-white/[0.05];
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Custom Animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.luxury-shine {
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+  background-size: 200% 100%;
+  animation: shine 3s infinite;
+}

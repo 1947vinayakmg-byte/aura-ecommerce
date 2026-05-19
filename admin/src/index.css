@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Montserrat", sans-serif;
+  --font-luxury: "Poppins", sans-serif;
+  
+  --color-luxury-gold: #D4AF37;
+  --color-luxury-gold-hover: #F5D76E;
+  --color-luxury-bg: #0F0F0F;
+  --color-luxury-card: rgba(255, 255, 255, 0.04);
+  --color-luxury-sidebar: #111111;
+  --color-luxury-secondary-bg: #161616;
+  --color-luxury-text-primary: #FFFFFF;
+  --color-luxury-text-secondary: #AFAFAF;
+  --color-luxury-border: rgba(255, 255, 255, 0.08);
+}
+
+@layer base {
+  body {
+    @apply bg-luxury-bg text-luxury-text-primary font-sans antialiased selection:bg-luxury-gold selection:text-black;
+    scrollbar-width: thin;
+    scrollbar-color: #D4AF37 #0F0F0F;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    @apply bg-luxury-card backdrop-blur-xl border border-luxury-border rounded-2xl;
+  }
+  
+  .glass-nav {
+    @apply bg-[rgba(20,20,20,0.75)] backdrop-blur-md border-b border-luxury-border;
+  }
+
+  .gold-gradient-text {
+    @apply bg-gradient-to-r from-luxury-gold to-[#F5D76E] bg-clip-text text-transparent;
+  }
+
+  /* Custom Scrollbar for Webkit */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0F0F0F;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #D4AF37;
+    border-radius: 10px;
+  }
+}
+
