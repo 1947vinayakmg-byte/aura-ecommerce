@@ -179,7 +179,8 @@ const forgotPassword = async (req, res) => {
     await user.save();
 
     // Admin panel URL — adjust if your admin runs on a different port/domain
-    const adminBaseUrl = process.env.ADMIN_URL || "http://localhost:3001";
+    const adminBaseUrl = process.env.ADMIN_URL || import.meta.env
+      .VITE_API_URL;
     const resetUrl = `${adminBaseUrl}/reset-password/${rawToken}`;
 
     const html = `

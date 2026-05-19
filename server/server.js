@@ -22,6 +22,7 @@ const aiRoutes = require("./routes/aiRoutes");
 connectDB();
 
 const app = express();
+app.set("trust proxy", 1);
 
 // Secure Express headers with Helmet
 app.use(helmet({
@@ -52,15 +53,9 @@ app.use(mongoSanitize);
 // CORS Configuration
 app.use(cors({
   origin: [
-    "https://aura-ecommerce-rho.vercel.app",
-    "https://aura-ecommerce-ouuz.vercel.app",
-    "http://localhost:5173",
-    "http://localhost:3001",
-    "http://localhost:3000",
-    "http://127.0.0.1:5173",
-    "http://127.0.0.1:3001",
-    "http://127.0.0.1:3000"
-  ], 
+    import.meta.env
+      .VITE_API_URL,
+  ],
   credentials: true,
 }));
 
@@ -106,7 +101,7 @@ app.use("/api/coupons", couponRoutes);
 app.use("/api/shiprocket", shiprocketRoutes);
 app.use("/api/ai", aiRoutes);
 
-app.get("/", (req, res) => {
+app.get("/", (_req, res) => {
   res.send("Luxury Fashion Backend Running...");
 });
 
