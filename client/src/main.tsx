@@ -8,7 +8,7 @@ import { HelmetProvider } from 'react-helmet-async';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <HelmetProvider>
-      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || ""}>
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || "678315875916-g0k10eggvidi1br12c43kcva06nlmobo.apps.googleusercontent.com"}>
         <App />
       </GoogleOAuthProvider>
     </HelmetProvider>
