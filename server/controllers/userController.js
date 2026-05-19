@@ -18,11 +18,10 @@ const forgotPassword = async (req, res) => {
 
     await user.save();
 
-    let clientBaseUrl = process.env.CLIENT_URL || "https://aura-ecommerce-git-main-1947vinayakmg-bytes-projects.vercel.app";
-    if (clientBaseUrl.includes("localhost") || clientBaseUrl.includes("127.0.0.1")) {
-      if (process.env.NODE_ENV === "production" || process.env.RENDER === "true" || process.env.PORT !== "5000") {
-        clientBaseUrl = "https://aura-ecommerce-git-main-1947vinayakmg-bytes-projects.vercel.app";
-      }
+    // Dynamically detect the requesting website's origin to build the perfect reset URL
+    let clientBaseUrl = req.headers.origin || (req.headers.referer ? new URL(req.headers.referer).origin : "https://aura-ecommerce-git-main-1947vinayakmg-bytes-projects.vercel.app");
+    if (clientBaseUrl.endsWith("/")) {
+      clientBaseUrl = clientBaseUrl.slice(0, -1);
     }
     const resetUrl = `${clientBaseUrl}/reset-password/${resetToken}`;
 
