@@ -4,6 +4,7 @@ import {
   Sparkles, TrendingUp, Target, Zap, Loader2, BrainCircuit,
   RefreshCw, Package, Users, DollarSign, ListChecks, ChevronDown, ChevronUp
 } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import { aiService } from '../services/aiService';
 import toast from 'react-hot-toast';
 import { format } from 'date-fns';
@@ -67,6 +68,14 @@ export default function AIInsights() {
   const [sections, setSections] = useState<InsightSection[]>([]);
   const [generatedAt, setGeneratedAt] = useState<string | null>(null);
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
+  const location = useLocation();
+
+  React.useEffect(() => {
+    if (location.state?.autoGenerate) {
+      generateInsights();
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
 
   const generateInsights = async () => {
     setLoading(true);

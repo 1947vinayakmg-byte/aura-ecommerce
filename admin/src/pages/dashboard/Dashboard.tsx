@@ -16,7 +16,8 @@ import {
   PlusCircle,
   ArrowRight,
   Loader2,
-  X
+  X,
+  BrainCircuit
 } from 'lucide-react';
 import { aiService } from '../../services/aiService';
 import { getDashboardStats } from '../../services/adminService';
@@ -91,11 +92,11 @@ export default function Dashboard() {
               ADD NEW MASTERPIECE
             </button>
             <button 
-              onClick={() => navigate('/ai-insights')}
+              onClick={() => navigate('/ai-insights', { state: { autoGenerate: true } })}
               className="bg-white/[0.05] hover:bg-white/[0.1] text-luxury-text-primary border border-luxury-border px-8 py-4 rounded-2xl font-luxury font-bold transition-all flex items-center gap-3 backdrop-blur-md"
             >
-              VIEW AI INSIGHTS
-              <ArrowRight size={18} />
+              GENERATE LIVE EXECUTIVE INSIGHTS
+              <BrainCircuit size={18} />
             </button>
           </div>
         </div>
