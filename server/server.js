@@ -51,16 +51,25 @@ app.use(mongoSanitize);
 
 // Production CORS Configuration
 const allowedOrigins = [
-  process.env.CLIENT_URL || "http://localhost:5173",
-  process.env.ADMIN_URL || "http://localhost:3001",
+  process.env.CLIENT_URL,
+  process.env.ADMIN_URL,
+  "http://localhost:5173",
+  "http://localhost:3001",
   "http://localhost:3000",
   "http://127.0.0.1:5173",
   "http://127.0.0.1:3001",
-  "http://127.0.0.1:3000"
-];
+  "http://127.0.0.1:3000",
+  "https://YOUR-VERCEL-URL.vercel.app" // User Vercel production url
+].filter(Boolean); // removes undefined entries
+
 const corsOptions = {
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+    // Allow if local development, explicitly listed, or Vercel deployments/previews
+    if (
+      !origin || 
+      allowedOrigins.indexOf(origin) !== -1 ||
+      origin.endsWith(".vercel.app")
+    ) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS Policy"));
