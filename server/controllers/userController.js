@@ -20,7 +20,7 @@ const forgotPassword = async (req, res) => {
 
     const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
 
-    await sendEmail(
+    sendEmail(
       user.email,
       "Password Reset - AURA L'ÉLITE",
       `
@@ -31,7 +31,9 @@ const forgotPassword = async (req, res) => {
           <p style="font-size: 12px; color: #777; margin-top: 20px;">If you did not initiate this request, please disregard this communication.</p>
         </div>
       `
-    );
+    ).catch((err) => {
+      console.error("Background client sendEmail failed:", err);
+    });
 
     res.json({ message: "Reset email sent" });
   } catch (error) {

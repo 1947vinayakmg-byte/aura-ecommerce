@@ -199,7 +199,10 @@ const forgotPassword = async (req, res) => {
       </div>
     `;
 
-    await sendEmail(user.email, "AURA Admin — Password Reset", html);
+    // Send email in the background so the request doesn't hang if SMTP times out
+    sendEmail(user.email, "AURA Admin — Password Reset", html).catch((err) => {
+      console.error("Background sendEmail failed:", err);
+    });
 
     res.status(200).json({
       message: "If an account with that email exists, a reset link has been sent.",
