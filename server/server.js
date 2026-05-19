@@ -51,11 +51,35 @@ const mongoSanitize = (req, res, next) => {
 app.use(mongoSanitize);
 
 // CORS Configuration
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  process.env.ADMIN_URL,
+  "http://localhost:5173",
+  "http://localhost:3001",
+  "http://localhost:3000",
+  "http://127.0.0.1:5173",
+  "http://127.0.0.1:3001",
+  "http://127.0.0.1:3000",
+  "https://aura-ecommerce-rho.vercel.app",
+  "https://aura-ecommerce-ouuz.vercel.app",
+  "https://aura-ecommerce-git-main-1947vinayakmg-bytes-projects.vercel.app"
+].filter(Boolean);
+
 app.use(cors({
-  origin: [
-    import.meta.env
-      .VITE_API_URL,
-  ],
+  origin: (origin, callback) => {
+    // Dynamic matching for Vercel deployment URLs and local development environments
+    if (
+      !origin || 
+      allowedOrigins.includes(origin) ||
+      origin.endsWith(".vercel.app") ||
+      origin.includes("localhost") ||
+      origin.includes("127.0.0.1")
+    ) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS Policy"));
+    }
+  },
   credentials: true,
 }));
 
